@@ -1,4 +1,7 @@
+import { InvalidDateFormat } from "../../../errors/invalid-date-format-error.ts";
+import { UserDoesNotExistError } from "../../../errors/user-does-not-exist-error.ts";
 import type { reserveRepository } from "../../../repositories/reserve-repository.ts";
+import type { userRepository } from "../../../repositories/user-repository.ts";
 import type { Reserve, ReserveCreate } from "../../../types/reserve.ts";
 
 export interface CreateReserveUseCaseRequest {
@@ -14,9 +17,11 @@ export interface CreateReserveUseCaseResponse {
 
 export class CreateReserveUseCase {
     private readonly reserveRepository: reserveRepository
+    private readonly userRepository: userRepository
 
-    constructor(repository: reserveRepository) {
-        this.reserveRepository = repository
+    constructor(reserveRepository: reserveRepository, userRepository: userRepository) {
+        this.reserveRepository = reserveRepository
+        this.userRepository = userRepository
     }
 
     async execute(data: CreateReserveUseCaseRequest): Promise<CreateReserveUseCaseResponse> {
@@ -24,7 +29,12 @@ export class CreateReserveUseCase {
         const dateEndOfReserve = new Date(data.endOfReserve);
 
         if(isNaN(dateStartOfReserve.getTime()) || isNaN(dateEndOfReserve.getTime())) {
-            throw new Error()
+            throw new InvalidDateFormat()
+        }
+
+        const user = await this.userRepository.findById(data.idUser);
+        if(!user) {
+            throw new UserDoesNotExistError()
         }
 
         const dataReserve: ReserveCreate = {
