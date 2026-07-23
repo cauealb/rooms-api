@@ -1,6 +1,11 @@
 export interface ReserveCreate {
-    idReserve: string
     idRoom: string
     idUser: string
+    startOfReserve: Date
+    endOfReserve: Date
+}
+
+export interface Reserve extends ReserveCreate {
+    idReserve: string
     idStatus: string
 }
