@@ -17,4 +17,21 @@ export class InMemoryReserve implements reserveRepository {
         this.item.push(reserve)
         return reserve
     }
+
+    async findById(idReserve: string): Promise<Reserve | null> {
+        const reserve = this.item.find(item => item.idReserve = idReserve)
+
+        if(!reserve) {
+            return null
+        }
+
+        return reserve
+    }
+
+    async cancelReservation(idReserve: string): Promise<Reserve> {
+        const reserve = this.item.find(item => item.idReserve = idReserve)
+
+        reserve!.idStatus = "CANCELED"
+        return reserve!
+    }
 }
