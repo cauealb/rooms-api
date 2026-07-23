@@ -1,3 +1,4 @@
+import { InvalidInputForCreatingAUser } from "../../../errors/invalid-input-for-creating-a-user-error.ts";
 import type { userRepository } from "../../../repositories/user-repository.ts";
 import type { User } from "../../../types/User.ts";
 
@@ -18,7 +19,7 @@ export class CreateUserUseCase {
 
     async execute({ name }: CreateUserUseCaseRequest): Promise<CreateUserUseCaseResponse> {
         if(name.length <= 1) {
-            throw new Error()
+            throw new InvalidInputForCreatingAUser()
         }
 
         const user = await this.userRepository.create({ name })
