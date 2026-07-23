@@ -1,6 +1,6 @@
 import { InvalidInputForCreatingAUser } from "../../../errors/invalid-input-for-creating-a-user-error.ts";
 import type { userRepository } from "../../../repositories/user-repository.ts";
-import type { User } from "../../../types/User.ts";
+import type { User } from "../../../types/user.ts";
 
 export interface CreateUserUseCaseRequest {
     name: string

@@ -1,4 +1,4 @@
-import type { UserCreate, User } from "../../types/User.ts";
+import type { UserCreate, User } from "../../types/user.ts";
 import type { userRepository } from "../user-repository.ts";
 
 export class InMemoryUser implements userRepository {
