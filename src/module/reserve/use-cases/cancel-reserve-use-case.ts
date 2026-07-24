@@ -1,4 +1,5 @@
 import { ReserveDoesNotExistError } from "../../../errors/reserve-does-not-exist-error.ts";
+import { ReservationHasAlreadyBeenCancelledError } from "../../../errors/reservation-has-already-been-cancelled-error..ts";
 import type { reserveRepository } from "../../../repositories/reserve-repository.ts";
 import type { Reserve } from "../../../types/reserve.ts";
 
@@ -23,8 +24,11 @@ export class CancelReserveUseCase {
             throw new ReserveDoesNotExistError()
         }
 
-        const reserve = await this.reserveRepository.cancelReservation(idReserve);
+        if(isReserveExist.status === 'CANCELED') {
+            throw new ReservationHasAlreadyBeenCancelledError()
+        }
 
+        const reserve = await this.reserveRepository.cancelReservation(idReserve);
         return { reserve }
     }
 }

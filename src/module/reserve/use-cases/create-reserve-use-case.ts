@@ -37,9 +37,10 @@ export class CreateReserveUseCase {
             throw new UserDoesNotExistError()
         }
 
-        const dataReserve: ReserveCreate = {
+        const dataReserve: Reserve = {
            idRoom: data.idRoom,
            idUser: data.idUser,
+           status: 'PENDING',
            startOfReserve: dateStartOfReserve,
            endOfReserve: dateEndOfReserve
         }

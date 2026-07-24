@@ -6,6 +6,6 @@ export interface ReserveCreate {
 }
 
 export interface Reserve extends ReserveCreate {
-    idReserve: string
-    idStatus: string
+    idReserve?: string
+    status: string
 }
