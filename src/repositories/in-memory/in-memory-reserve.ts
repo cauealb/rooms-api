@@ -28,10 +28,17 @@ export class InMemoryReserve implements reserveRepository {
         return reserve
     }
 
+    async confirmReservation(idReserve: string) {
+        const reserve = this.item.find(item => item.idReserve = idReserve)
+        reserve!.status = "CONFIRMED"
+
+        return reserve!
+    }
+
     async cancelReservation(idReserve: string): Promise<Reserve> {
         const reserve = this.item.find(item => item.idReserve = idReserve)
-
         reserve!.status = "CANCELED"
+
         return reserve!
     }
 }
