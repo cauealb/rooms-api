@@ -1,4 +1,4 @@
-import type { Reserve, ReserveCreate } from "../types/reserve.ts";
+import type { Reserve, ReserveCreate } from "../types/Reserve.ts";
 
 export interface reserveRepository {
     create(data: Reserve): Promise<Reserve>
