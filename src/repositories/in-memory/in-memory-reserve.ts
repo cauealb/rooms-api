@@ -1,4 +1,4 @@
-import type { ReserveCreate, Reserve } from "../../types/reserve.ts";
+import type { ReserveCreate, Reserve } from "../../types/Reserve.ts";
 import type { reserveRepository } from "../reserve-repository.ts";
 
 export class InMemoryReserve implements reserveRepository {

@@ -1,8 +1,7 @@
-export interface RoomsCreate {
+export interface RoomCreate {
     nameRoom: string
-    countReserve: number
 }
 
-export interface Rooms extends RoomsCreate {
-    idRoom: string
+export interface Room extends RoomCreate {
+    idRoom?: string
 }
