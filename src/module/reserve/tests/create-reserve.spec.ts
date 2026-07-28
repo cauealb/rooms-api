@@ -9,6 +9,7 @@ import { UserDoesNotExistError } from '../../../errors/user-does-not-exist-error
 import type { roomRepository } from '../../../repositories/room-repository.ts'
 import { InMemoryRoomsRepository } from '../../../repositories/in-memory/in-memory-rooms-repository.ts'
 import { RoomDoesNotExistError } from '../../../errors/room-does-not-exist-error.ts'
+import { IsAlreadyAReservationAvailableForThatDateError } from '../../../errors/is-already-a-reservation-available-for-that-date-error.ts'
 
 let reserveRepository: reserveRepository
 let userRepository: userRepository
@@ -90,5 +91,63 @@ describe("Create Reserve", () => {
                 endOfReserve: "2026-07-23T16:30:00-03:00"
             })
         }).rejects.toBeInstanceOf(RoomDoesNotExistError)
+    })
+
+    it("should be able validate conflict of hours", async () => {
+        userRepository.create({
+            idUser: 'user-01',
+            name: 'Cauê'
+        })
+
+        roomRepository.create({
+            idRoom: 'room-01',
+            nameRoom: 'room-a'
+        })
+
+        await sut.execute({
+            idRoom: 'room-01',
+            idUser: 'user-01',
+            startOfReserve: "2026-07-23T15:30:00-03:00",
+            endOfReserve: "2026-07-23T16:30:00-03:00"
+        })
+
+        await expect(async () => {
+            await sut.execute({
+                idRoom: 'room-01',
+                idUser: 'user-01',
+                startOfReserve: "2026-07-23T16:00:00-03:00",
+                endOfReserve: "2026-07-23T17:30:00-03:00"
+            })
+        }).rejects.toBeInstanceOf(IsAlreadyAReservationAvailableForThatDateError)
+    })
+
+    it.todo("should be able create reservations in differents hours", async () => {
+        userRepository.create({
+            idUser: 'user-01',
+            name: 'Cauê'
+        })
+
+        roomRepository.create({
+            idRoom: 'room-01',
+            nameRoom: 'room-a'
+        })
+
+        await sut.execute({
+            idRoom: 'room-01',
+            idUser: 'user-01',
+            startOfReserve: "2026-07-23T15:30:00-03:00",
+            endOfReserve: "2026-07-23T16:30:00-03:00"
+        })
+
+
+        const { reserve } = await sut.execute({
+            idRoom: 'room-01',
+            idUser: 'user-01',
+            startOfReserve: "2026-07-23T16:30:00-03:00",
+            endOfReserve: "2026-07-23T17:30:00-03:00"
+        })
+
+        
+        expect(reserve.idReserve).toEqual(expect.any(String))
     })
 })

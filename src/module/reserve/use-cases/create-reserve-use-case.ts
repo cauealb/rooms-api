@@ -1,10 +1,11 @@
 import { InvalidDateFormat } from "../../../errors/invalid-date-format-error.ts";
+import { IsAlreadyAReservationAvailableForThatDateError } from "../../../errors/is-already-a-reservation-available-for-that-date-error.ts";
 import { RoomDoesNotExistError } from "../../../errors/room-does-not-exist-error.ts";
 import { UserDoesNotExistError } from "../../../errors/user-does-not-exist-error.ts";
 import type { reserveRepository } from "../../../repositories/reserve-repository.ts";
 import type { roomRepository } from "../../../repositories/room-repository.ts";
 import type { userRepository } from "../../../repositories/user-repository.ts";
-import type { Reserve } from "../../../types/Reserve.ts";
+import type { Reserve } from "../../../types/reserve.ts";
 
 export interface CreateReserveUseCaseRequest {
     idRoom: string,
@@ -44,6 +45,11 @@ export class CreateReserveUseCase {
         const user = await this.userRepository.findById(data.idUser);
         if(!user) {
             throw new UserDoesNotExistError()
+        }
+
+        const reserves = await this.reserveRepository.findAvailableReservationsOnDate(data.idRoom, data.startOfReserve, data.endOfReserve)
+        if(reserves.length > 0) {
+            throw new IsAlreadyAReservationAvailableForThatDateError()
         }
 
         const dataReserve: Reserve = {

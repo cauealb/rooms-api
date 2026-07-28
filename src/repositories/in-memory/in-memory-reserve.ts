@@ -1,5 +1,7 @@
-import type { ReserveCreate, Reserve } from "../../types/Reserve.ts";
+import dayjs from "dayjs";
+import type { Reserve } from "../../types/reserve.ts";
 import type { reserveRepository } from "../reserve-repository.ts";
+import { start } from "node:repl";
 
 export class InMemoryReserve implements reserveRepository {
     private item: Reserve[] = []
@@ -40,5 +42,18 @@ export class InMemoryReserve implements reserveRepository {
         reserve!.status = "CANCELED"
 
         return reserve!
+    }
+
+    async findAvailableReservationsOnDate(idRoom: string, startAt: string, endAt: string): Promise<Reserve[]> {
+        const dateStartOf = dayjs(startAt)
+        const dateEndOf = dayjs(endAt)
+
+        const reserves = this.item.filter(item => {
+            if(item.idRoom === idRoom) {
+                return dateStartOf.isAfter(item.startOfReserve) || dateEndOf.isBefore(item.endOfReserve)
+            }
+        })
+
+        return reserves
     }
 }
