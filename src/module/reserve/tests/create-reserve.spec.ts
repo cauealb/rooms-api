@@ -6,22 +6,32 @@ import { InvalidDateFormat } from '../../../errors/invalid-date-format-error.ts'
 import type { userRepository } from '../../../repositories/user-repository.ts'
 import { InMemoryUser } from '../../../repositories/in-memory/in-memory-user.ts'
 import { UserDoesNotExistError } from '../../../errors/user-does-not-exist-error.ts'
+import type { roomRepository } from '../../../repositories/room-repository.ts'
+import { InMemoryRoomsRepository } from '../../../repositories/in-memory/in-memory-rooms-repository.ts'
+import { RoomDoesNotExistError } from '../../../errors/room-does-not-exist-error.ts'
 
 let reserveRepository: reserveRepository
 let userRepository: userRepository
+let roomRepository: roomRepository
 let sut: CreateReserveUseCase
 
 describe("Create Reserve", () => {
     beforeEach(() => {
         reserveRepository = new InMemoryReserve()
         userRepository = new InMemoryUser()
-        sut = new CreateReserveUseCase(reserveRepository, userRepository)
+        roomRepository = new InMemoryRoomsRepository()
+        sut = new CreateReserveUseCase(reserveRepository, userRepository, roomRepository)
     })
 
     it("should be able create a reserve", async () => {
         userRepository.create({
             idUser: 'user-01',
             name: 'Cauê'
+        })
+
+        roomRepository.create({
+            idRoom: 'room-01',
+            nameRoom: 'room-a'
         })
 
         const { reserve } = await sut.execute({
@@ -51,15 +61,34 @@ describe("Create Reserve", () => {
     })
 
     it("should be able validate invalid user", async () => {
+        roomRepository.create({
+            idRoom: 'room-01',
+            nameRoom: 'room-a'
+        })
+
         await expect(async () => {
             await sut.execute({
                 idRoom: 'room-01',
-                idUser: 'user-01',
-                startOfReserve: "2026-07-23T15:30:00",
-                endOfReserve: "2026-07-23T16:30:00"
+                idUser: 'invalid-user',
+                startOfReserve: "2026-07-23T15:30:00-03:00",
+                endOfReserve: "2026-07-23T16:30:00-03:00"
             })
         }).rejects.toBeInstanceOf(UserDoesNotExistError)
     })
 
-    it.todo("should be able validate invalid room")
+    it("should be able validate invalid room", async () => {
+        userRepository.create({
+            idUser: 'user-01',
+            name: 'Cauê'
+        })
+
+        await expect(async () => {
+            await sut.execute({
+                idRoom: 'invalid-room',
+                idUser: 'user-01',
+                startOfReserve: "2026-07-23T15:30:00-03:00",
+                endOfReserve: "2026-07-23T16:30:00-03:00"
+            })
+        }).rejects.toBeInstanceOf(RoomDoesNotExistError)
+    })
 })
