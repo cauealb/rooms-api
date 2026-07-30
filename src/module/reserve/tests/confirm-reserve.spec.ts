@@ -3,6 +3,7 @@ import type { reserveRepository } from '../../../repositories/reserve-repository
 import { ConfirmReserveUseCase } from '../use-cases/confirm-reserve-use-case.ts'
 import { InMemoryReserve } from '../../../repositories/in-memory/in-memory-reserve.ts'
 import { ReserveDoesNotExistError } from '../../../errors/reserve-does-not-exist-error.ts'
+import { AReservationCanOnlyBeConfirmedIfItIsPendingError } from '../../../errors/a-reservation-can-only-be-confirmed-if-it-is-pending-error.ts'
 
 let repository: reserveRepository
 let sut: ConfirmReserveUseCase
@@ -24,8 +25,6 @@ describe("Confirm reserve", () => {
         })
 
         const { reserve } = await sut.execute({
-            idRoom: 'room-01',
-            idUser: 'user-01',
             idReserve: createdReservation.idReserve!
         })
 
@@ -38,8 +37,6 @@ describe("Confirm reserve", () => {
     it("should be able validate a reservation that does not exist",async () => {
         await expect(async() => {
             await sut.execute({
-                idRoom: 'room-01',
-                idUser: 'user-01',
                 idReserve: 'invalid-reservation'
             })
         }).rejects.toBeInstanceOf(ReserveDoesNotExistError)
@@ -55,17 +52,13 @@ describe("Confirm reserve", () => {
         })
 
         await sut.execute({
-            idRoom: 'room-01',
-            idUser: 'user-01',
             idReserve: createdReservation.idReserve!
         })
 
         await expect(async() => {
             await sut.execute({
-                idRoom: 'room-01',
-                idUser: 'user-01',
                 idReserve: createdReservation.idReserve!
             })
-        }).rejects.toBeInstanceOf(Error)
+        }).rejects.toBeInstanceOf(AReservationCanOnlyBeConfirmedIfItIsPendingError)
     })
 })

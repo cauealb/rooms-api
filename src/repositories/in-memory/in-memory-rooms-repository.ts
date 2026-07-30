@@ -1,4 +1,4 @@
-import type { Room } from "../../types/rooms.ts";
+import type { Room } from "../../types/Rooms.ts";
 import type { roomRepository } from "../room-repository.ts";
 
 export class InMemoryRoomsRepository implements roomRepository {

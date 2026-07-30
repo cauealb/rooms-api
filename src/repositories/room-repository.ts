@@ -1,4 +1,4 @@
-import type { Room } from "../types/rooms.ts";
+import type { Room } from "../types/Rooms.ts";
 
 export interface roomRepository {
     create(data: Room): Promise<Room>
