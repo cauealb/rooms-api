@@ -121,7 +121,7 @@ describe("Create Reserve", () => {
         }).rejects.toBeInstanceOf(IsAlreadyAReservationAvailableForThatDateError)
     })
 
-    it.todo("should be able create reservations in differents hours", async () => {
+    it("should be able create reservations in differents hours", async () => {
         userRepository.create({
             idUser: 'user-01',
             name: 'Cauê'
@@ -138,7 +138,6 @@ describe("Create Reserve", () => {
             startOfReserve: "2026-07-23T15:30:00-03:00",
             endOfReserve: "2026-07-23T16:30:00-03:00"
         })
-
 
         const { reserve } = await sut.execute({
             idRoom: 'room-01',
