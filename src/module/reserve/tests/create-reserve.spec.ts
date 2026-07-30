@@ -180,4 +180,25 @@ describe("Create Reserve", () => {
             })
         }).rejects.toBeInstanceOf(Error)
     })
+
+    it("should be able validate valid hours", async () => {
+        userRepository.create({
+            idUser: 'user-01',
+            name: 'Cauê'
+        })
+
+        roomRepository.create({
+            idRoom: 'room-01',
+            nameRoom: 'room-a'
+        })
+
+        await expect(async () => {
+           await sut.execute({
+                idRoom: 'room-01',
+                idUser: 'user-01',
+                startOfReserve: "2026-07-23T16:00:00-03:00",
+                endOfReserve: "2026-07-23T15:30:00-03:00"
+            }) 
+        }).rejects.toBeInstanceOf(Error)
+    })
 })

@@ -61,4 +61,29 @@ describe("Cancel Reserve", () => {
             })
         }).rejects.toBeInstanceOf(ReservationHasAlreadyBeenCancelledError)
     })
+
+    it("should be able validate cancel reservation e create a reserve", async () => {
+        await repository.create({
+            idReserve: 'reserve-01',
+            idRoom: 'room-01',
+            idUser: 'user-01',
+            status: 'PENDING',
+            startOfReserve: new Date("2026-07-23T15:30:00-03:00"),
+            endOfReserve: new Date("2026-07-23T16:30:00-03:00")
+        })
+
+        await sut.execute({
+            idReserve: 'reserve-01'
+        })
+
+        const reserve = await repository.create({
+            idRoom: 'room-01',
+            idUser: 'user-01',
+            status: 'PENDING',
+            startOfReserve: new Date("2026-07-23T15:30:00-03:00"),
+            endOfReserve: new Date("2026-07-23T16:30:00-03:00")
+        })
+
+        expect(reserve.idReserve).toEqual(expect.any(String))
+    })
 })

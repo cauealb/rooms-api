@@ -3,6 +3,7 @@ import type { reserveRepository } from '../../../repositories/reserve-repository
 import { ConfirmReserveUseCase } from '../use-cases/confirm-reserve-use-case.ts'
 import { InMemoryReserve } from '../../../repositories/in-memory/in-memory-reserve.ts'
 import { ReserveDoesNotExistError } from '../../../errors/reserve-does-not-exist-error.ts'
+import { AReservationCanOnlyBeConfirmedIfItIsPendingError } from '../../../errors/a-reservation-can-only-be-confirmed-if-it-is-pending-error.ts'
 
 let repository: reserveRepository
 let sut: ConfirmReserveUseCase
@@ -58,6 +59,6 @@ describe("Confirm reserve", () => {
             await sut.execute({
                 idReserve: createdReservation.idReserve!
             })
-        }).rejects.toBeInstanceOf(Error)
+        }).rejects.toBeInstanceOf(AReservationCanOnlyBeConfirmedIfItIsPendingError)
     })
 })

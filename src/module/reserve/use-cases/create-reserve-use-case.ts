@@ -37,6 +37,10 @@ export class CreateReserveUseCase {
             throw new InvalidDateFormat()
         }
 
+        if(dateStartOfReserve > dateEndOfReserve) {
+            throw new InvalidDateFormat()
+        }
+
         const room = await this.roomRepository.findById(data.idRoom);
         if(!room) {
             throw new RoomDoesNotExistError()

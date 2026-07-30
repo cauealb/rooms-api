@@ -1,3 +1,4 @@
+import { AReservationCanOnlyBeConfirmedIfItIsPendingError } from "../../../errors/a-reservation-can-only-be-confirmed-if-it-is-pending-error.ts";
 import { ReserveDoesNotExistError } from "../../../errors/reserve-does-not-exist-error.ts";
 import type { reserveRepository } from "../../../repositories/reserve-repository.ts";
 import type { Reserve } from "../../../types/reserve.ts";
@@ -24,7 +25,7 @@ export class ConfirmReserveUseCase {
         }
 
         if(isReserveExist.status !== 'PENDING') {
-            throw new Error()
+            throw new AReservationCanOnlyBeConfirmedIfItIsPendingError()
         }
 
         const reserve = await this.reserveRepository.confirmReservation(idReserve);
