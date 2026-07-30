@@ -50,7 +50,9 @@ export class InMemoryReserve implements reserveRepository {
 
         const reserves = this.item.filter(item => {
             if(item.idRoom === idRoom) {
-                return (dateStartOf.isBefore(item.endOfReserve) && dateEndOf.isAfter(item.startOfReserve))
+                if(item.status !== 'CANCELED') {
+                    return (dateStartOf.isBefore(item.endOfReserve) && dateEndOf.isAfter(item.startOfReserve)) 
+                }
             }
         })
 

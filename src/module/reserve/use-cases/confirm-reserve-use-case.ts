@@ -3,9 +3,7 @@ import type { reserveRepository } from "../../../repositories/reserve-repository
 import type { Reserve } from "../../../types/reserve.ts";
 
 export interface ConfirmReserveUseCaseRequest {
-    idUser: string,
     idReserve: string
-    idRoom: string
 }
 
 export interface ConfirmReserveUseCaseResponse {
@@ -19,7 +17,7 @@ export class ConfirmReserveUseCase {
         this.reserveRepository = repository
     }
 
-    async execute({ idUser, idReserve, idRoom }: ConfirmReserveUseCaseRequest): Promise<ConfirmReserveUseCaseResponse> {
+    async execute({ idReserve }: ConfirmReserveUseCaseRequest): Promise<ConfirmReserveUseCaseResponse> {
         const isReserveExist = await this.reserveRepository.findById(idReserve);
         if(!isReserveExist) {
             throw new ReserveDoesNotExistError()

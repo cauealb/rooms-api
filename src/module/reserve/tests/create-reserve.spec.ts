@@ -10,6 +10,7 @@ import type { roomRepository } from '../../../repositories/room-repository.ts'
 import { InMemoryRoomsRepository } from '../../../repositories/in-memory/in-memory-rooms-repository.ts'
 import { RoomDoesNotExistError } from '../../../errors/room-does-not-exist-error.ts'
 import { IsAlreadyAReservationAvailableForThatDateError } from '../../../errors/is-already-a-reservation-available-for-that-date-error.ts'
+import { executionAsyncId } from 'node:async_hooks'
 
 let reserveRepository: reserveRepository
 let userRepository: userRepository
@@ -148,5 +149,35 @@ describe("Create Reserve", () => {
 
         
         expect(reserve.idReserve).toEqual(expect.any(String))
+    })
+
+    it("should be able validate occupied reservation with status CONFIRMED", async () => {
+        userRepository.create({
+            idUser: 'user-01',
+            name: 'Cauê'
+        })
+
+        roomRepository.create({
+            idRoom: 'room-01',
+            nameRoom: 'room-a'
+        })
+
+        const { reserve } = await sut.execute({
+            idRoom: 'room-01',
+            idUser: 'user-01',
+            startOfReserve: "2026-07-23T15:30:00-03:00",
+            endOfReserve: "2026-07-23T16:30:00-03:00"
+        })
+
+        reserveRepository.confirmReservation(reserve.idReserve!)
+
+        await expect(async () => {
+            await sut.execute({
+                idRoom: 'room-01',
+                idUser: 'user-01',
+                startOfReserve: "2026-07-23T16:00:00-03:00",
+                endOfReserve: "2026-07-23T17:30:00-03:00"
+            })
+        }).rejects.toBeInstanceOf(Error)
     })
 })

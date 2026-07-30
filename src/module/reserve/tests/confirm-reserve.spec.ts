@@ -24,8 +24,6 @@ describe("Confirm reserve", () => {
         })
 
         const { reserve } = await sut.execute({
-            idRoom: 'room-01',
-            idUser: 'user-01',
             idReserve: createdReservation.idReserve!
         })
 
@@ -38,8 +36,6 @@ describe("Confirm reserve", () => {
     it("should be able validate a reservation that does not exist",async () => {
         await expect(async() => {
             await sut.execute({
-                idRoom: 'room-01',
-                idUser: 'user-01',
                 idReserve: 'invalid-reservation'
             })
         }).rejects.toBeInstanceOf(ReserveDoesNotExistError)
@@ -55,15 +51,11 @@ describe("Confirm reserve", () => {
         })
 
         await sut.execute({
-            idRoom: 'room-01',
-            idUser: 'user-01',
             idReserve: createdReservation.idReserve!
         })
 
         await expect(async() => {
             await sut.execute({
-                idRoom: 'room-01',
-                idUser: 'user-01',
                 idReserve: createdReservation.idReserve!
             })
         }).rejects.toBeInstanceOf(Error)
