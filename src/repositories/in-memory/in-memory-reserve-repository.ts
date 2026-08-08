@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import type { Reserve } from "../../types/reserve.ts";
 import type { reserveRepository } from "../reserve-repository.ts";
-import { start } from "node:repl";
 
 export class InMemoryReserve implements reserveRepository {
     private item: Reserve[] = []
@@ -11,7 +10,7 @@ export class InMemoryReserve implements reserveRepository {
             idReserve: data.idReserve ?? 'reserve-01',
             idRoom: data.idRoom,
             idUser: data.idUser,
-            status: 'PENDING',
+            status: data.status ?? 'PENDING',
             startOfReserve: data.startOfReserve,
             endOfReserve: data.endOfReserve,
         }
@@ -61,5 +60,9 @@ export class InMemoryReserve implements reserveRepository {
 
     async findPaginatedReservations(page: number) {
         return this.item.slice((page - 1) * 20, page * 20)
+    }
+
+    async findReservesByStatus(status: string): Promise<Reserve[]> {
+        return this.item.filter(item => item.status === status)
     }
 }

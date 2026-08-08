@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import type { reserveRepository } from '../../../repositories/reserve-repository.ts'
 import { CreateReserveUseCase } from '../use-cases/create-reserve-use-case.ts'
-import { InMemoryReserve } from '../../../repositories/in-memory/in-memory-reserve.ts'
+import { InMemoryReserve } from '../../../repositories/in-memory/in-memory-reserve-repository.ts'
 import { InvalidDateFormat } from '../../../errors/invalid-date-format-error.ts'
 import type { userRepository } from '../../../repositories/user-repository.ts'
 import { InMemoryUser } from '../../../repositories/in-memory/in-memory-user.ts'

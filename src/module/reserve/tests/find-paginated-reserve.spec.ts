@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import type { reserveRepository } from "../../../repositories/reserve-repository.ts";
 import { FindPaginatedReserveUseCase } from "../use-cases/find-paginated-reserve-use-case.ts";
-import { InMemoryReserve } from "../../../repositories/in-memory/in-memory-reserve.ts";
+import { InMemoryReserve } from "../../../repositories/in-memory/in-memory-reserve-repository.ts";
 
 let reserveRepository: reserveRepository
 let sut: FindPaginatedReserveUseCase
