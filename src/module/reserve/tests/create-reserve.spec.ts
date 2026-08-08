@@ -10,7 +10,6 @@ import type { roomRepository } from '../../../repositories/room-repository.ts'
 import { InMemoryRoomsRepository } from '../../../repositories/in-memory/in-memory-rooms-repository.ts'
 import { RoomDoesNotExistError } from '../../../errors/room-does-not-exist-error.ts'
 import { IsAlreadyAReservationAvailableForThatDateError } from '../../../errors/is-already-a-reservation-available-for-that-date-error.ts'
-import { executionAsyncId } from 'node:async_hooks'
 
 let reserveRepository: reserveRepository
 let userRepository: userRepository

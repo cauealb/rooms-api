@@ -6,4 +6,5 @@ export interface reserveRepository {
     confirmReservation(idReserve: string): Promise<Reserve>
     cancelReservation(idReserve: string): Promise<Reserve>
     findAvailableReservationsOnDate(idRoom: string, startAt: string, endAt: string): Promise<Reserve[]>
+    findPaginatedReservations(page: number): Promise<Reserve[]>
 }

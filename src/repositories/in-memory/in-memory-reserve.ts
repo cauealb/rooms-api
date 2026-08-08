@@ -58,4 +58,8 @@ export class InMemoryReserve implements reserveRepository {
 
         return reserves
     }
+
+    async findPaginatedReservations(page: number) {
+        return this.item.slice((page - 1) * 20, page * 20)
+    }
 }
