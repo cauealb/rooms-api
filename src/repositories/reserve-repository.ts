@@ -11,5 +11,6 @@ export interface reserveRepository {
     
     findAvailableReservationsOnDate(idRoom: string, startAt: string, endAt: string): Promise<Reserve[]>
     findPaginatedReservations(page: number): Promise<Reserve[]>
+    findReservesBetweenDates(startAt: Date, endAt: Date): Promise<Reserve[]>
     
 }

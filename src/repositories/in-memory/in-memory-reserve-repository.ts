@@ -65,4 +65,11 @@ export class InMemoryReserve implements reserveRepository {
     async findReservesByStatus(status: string): Promise<Reserve[]> {
         return this.item.filter(item => item.status === status)
     }
+
+    async findReservesBetweenDates(startAt: Date, endAt: Date): Promise<Reserve[]> {
+        const dateStartAt = dayjs(startAt)
+        const dateEndAt = dayjs(endAt)
+
+        return this.item.filter(item => dateStartAt.isAfter(item.startOfReserve) && dateEndAt.isBefore(item.endOfReserve))
+    }
 }
