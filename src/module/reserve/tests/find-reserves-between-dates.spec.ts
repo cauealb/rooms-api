@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { reserveRepository } from "../../../repositories/reserve-repository.ts";
 import { FindReservesBetweenDates } from "../use-cases/find-reserves-between-dates.ts";
 import { InMemoryReserve } from "../../../repositories/in-memory/in-memory-reserve-repository.ts";
+import { InvalidDateFormat } from "../../../errors/invalid-date-format-error.ts";
 
 let reserveRepository: reserveRepository
 let sut: FindReservesBetweenDates
@@ -43,5 +44,21 @@ describe("Find reserves between date", () => {
                 idRoom: `room-02`,
             }),
         ])
+    })
+
+    it("should be able validate dates", async () => {
+        await expect(async () => {
+            await sut.execute({
+                startAt: "2026-07-23T20:30:00-03:00",
+                endAt: "2026-07-23T19:00:00-03:00"
+            })
+        }).rejects.toBeInstanceOf(InvalidDateFormat)
+
+        await expect(async () => {
+            await sut.execute({
+                startAt: "2026-07-23T15:99:00-03:00",
+                endAt: "2026-07-23T19:00:00-03:00"
+            })
+        }).rejects.toBeInstanceOf(InvalidDateFormat)
     })
 })
