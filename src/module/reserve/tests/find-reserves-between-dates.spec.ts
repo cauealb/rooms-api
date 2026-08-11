@@ -30,8 +30,8 @@ describe("Find reserves between date", () => {
         })
 
         const { reserves } = await sut.execute({
-            startAt: new Date("2026-07-23T15:30:00-03:00"),
-            endAt: new Date("2026-07-23T19:00:00-03:00")
+            startAt: "2026-07-23T15:30:00-03:00",
+            endAt: "2026-07-23T19:00:00-03:00"
         })
 
         expect(reserves).toHaveLength(2)

@@ -31,8 +31,6 @@ export class FindReservesBetweenDates {
         }
 
         const reserves = await this.reserveRepository.findReservesBetweenDates(dateStartOf, dateEndOf);
-
         return { reserves }
-
     }
 }

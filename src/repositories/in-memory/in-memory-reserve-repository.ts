@@ -67,9 +67,10 @@ export class InMemoryReserve implements reserveRepository {
     }
 
     async findReservesBetweenDates(startAt: Date, endAt: Date): Promise<Reserve[]> {
-        const dateStartAt = dayjs(startAt)
-        const dateEndAt = dayjs(endAt)
+        return this.item.filter(item => {
+            if(item.status === 'CANCELED') return
 
-        return this.item.filter(item => dateStartAt.isAfter(item.startOfReserve) && dateEndAt.isBefore(item.endOfReserve))
+            return item.startOfReserve <= startAt || item.endOfReserve <= endAt  
+        })
     }
 }
