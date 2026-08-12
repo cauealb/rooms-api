@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ReserveStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+}
+
+model User {
+  idUser String @id @default(uuid()) @map("id_user")
+  name   String
+
+  reserves Reserve[]
+
+  @@map("users")
+}
+
+model Room {
+  idRoom   String @id @default(uuid()) @map("id_room")
+  nameRoom String @map("name_room")
+
+  reserves Reserve[]
+
+  @@map("rooms")
+}
+
+model Reserve {
+  idReserve      String        @id @default(uuid()) @map("id_reserve")
+  idRoom         String        @map("id_room")
+  idUser         String        @map("id_user")
+  status         ReserveStatus @default(PENDING)
+  startOfReserve DateTime      @map("start_of_reserve") @db.Timestamptz(3)
+  endOfReserve   DateTime      @map("end_of_reserve") @db.Timestamptz(3)
+
+  room Room @relation(fields: [idRoom], references: [idRoom])
+  user User @relation(fields: [idUser], references: [idUser])
+
+  @@index([idRoom, startOfReserve, endOfReserve])
+  @@index([status])
+  @@map("reserves")
+}

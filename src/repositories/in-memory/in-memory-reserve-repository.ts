@@ -20,7 +20,7 @@ export class InMemoryReserve implements reserveRepository {
     }
 
     async findById(idReserve: string): Promise<Reserve | null> {
-        const reserve = this.item.find(item => item.idReserve = idReserve)
+        const reserve = this.item.find(item => item.idReserve === idReserve)
 
         if(!reserve) {
             return null
@@ -30,14 +30,14 @@ export class InMemoryReserve implements reserveRepository {
     }
 
     async confirmReservation(idReserve: string) {
-        const reserve = this.item.find(item => item.idReserve = idReserve)
+        const reserve = this.item.find(item => item.idReserve === idReserve)
         reserve!.status = "CONFIRMED"
 
         return reserve!
     }
 
     async cancelReservation(idReserve: string): Promise<Reserve> {
-        const reserve = this.item.find(item => item.idReserve = idReserve)
+        const reserve = this.item.find(item => item.idReserve === idReserve)
         reserve!.status = "CANCELED"
 
         return reserve!
