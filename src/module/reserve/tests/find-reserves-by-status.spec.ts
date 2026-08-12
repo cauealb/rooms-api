@@ -68,4 +68,17 @@ describe("Find reseves by status", () => {
             })
         ])
     })
+
+    it("should be able validate incorret status", async () => {
+
+        await reserveRepository.create({
+            idRoom: `room-01`,
+            idUser: `user-01`,
+            status: 'PENDING',
+            startOfReserve: new Date("2026-07-23T17:30:00-03:00"),
+            endOfReserve: new Date("2026-07-23T19:00:00-03:00")
+        })
+        
+        await expect(async () => await sut.execute({ status: 'INCORRECT STATUS' })).rejects.toBeInstanceOf(Error)
+    })
 })
