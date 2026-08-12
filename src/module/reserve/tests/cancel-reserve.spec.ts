@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { InMemoryReserve } from '../../../repositories/in-memory/in-memory-reserve.ts'
+import { InMemoryReserve } from '../../../repositories/in-memory/in-memory-reserve-repository.ts'
 import type { reserveRepository } from '../../../repositories/reserve-repository.ts'
 import { CancelReserveUseCase } from '../use-cases/cancel-reserve-use-case.ts'
 import { ReserveDoesNotExistError } from '../../../errors/reserve-does-not-exist-error.ts'

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import type { reserveRepository } from '../../../repositories/reserve-repository.ts'
 import { ConfirmReserveUseCase } from '../use-cases/confirm-reserve-use-case.ts'
-import { InMemoryReserve } from '../../../repositories/in-memory/in-memory-reserve.ts'
+import { InMemoryReserve } from '../../../repositories/in-memory/in-memory-reserve-repository.ts'
 import { ReserveDoesNotExistError } from '../../../errors/reserve-does-not-exist-error.ts'
 import { AReservationCanOnlyBeConfirmedIfItIsPendingError } from '../../../errors/a-reservation-can-only-be-confirmed-if-it-is-pending-error.ts'
 
