@@ -1,0 +1,10 @@
+
+services:
+  rooms-api:
+    image: bitnami/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRESQL_USERNAME: admin
+      POSTGRESQL_PASSWORD: 1234
+      POSTGRESQL_DATABASE: rooms-api
