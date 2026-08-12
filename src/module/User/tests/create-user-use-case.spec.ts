@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import type { userRepository } from '../../../repositories/user-repository.ts'
 import { CreateUserUseCase } from '../use-cases/create-user-use-case.ts'
-import { InMemoryUser } from '../../../repositories/in-memory/in-memory-user.ts'
+import { InMemoryUser } from '../../../repositories/in-memory/in-memory-user-repository.ts'
 import { InvalidInputForCreatingAUser } from '../../../errors/invalid-input-for-creating-a-user-error.ts'
 
 let repository: userRepository
