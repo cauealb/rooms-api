@@ -1,9 +1,7 @@
-import dayjs from "dayjs";
 import { ReserveStatus } from "../../generated/prisma/enums.ts";
 import { prisma } from "../../lib/prisma.ts";
 import type { Reserve } from "../../types/reserve.ts";
 import type { reserveRepository } from "../reserve-repository.ts";
-import { asyncWrapProviders } from "node:async_hooks";
 
 export class PrismaReserveRepository implements reserveRepository {
     async create(data: Reserve) {
@@ -47,7 +45,7 @@ export class PrismaReserveRepository implements reserveRepository {
         })
     }
 
-    async cancelReservation(idReserve: string): Promise<Reserve> {
+    async cancelReservation(idReserve: string) {
         const reserve = await prisma.reserve.findUnique({ where: { idReserve: idReserve } })
         // TODO: Validar reserve da forma correta, se não achar, enviar algo para dizer que não existe esta reserva
 
@@ -61,7 +59,7 @@ export class PrismaReserveRepository implements reserveRepository {
         })
     }
 
-    async findAvailableReservationsOnDate(idRoom: string, startAt: string, endAt: string): Promise<Reserve[]> {
+    async findAvailableReservationsOnDate(idRoom: string, startAt: string, endAt: string) {
         return await prisma.reserve.findMany({
             where: {
                idRoom: idRoom,
@@ -78,14 +76,14 @@ export class PrismaReserveRepository implements reserveRepository {
         })
     }
 
-    async findPaginatedReservations(page: number): Promise<Reserve[]> {
+    async findPaginatedReservations(page: number) {
         return await prisma.reserve.findMany({
             skip: page * 20,
             take: 20
         })
     }
 
-    async findReservesBetweenDates(startAt: Date, endAt: Date): Promise<Reserve[]> {
+    async findReservesBetweenDates(startAt: Date, endAt: Date) {
         return await prisma.reserve.findMany({
             where: {
                 startOfReserve: {
