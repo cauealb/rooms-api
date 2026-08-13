@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import type { roomRepository } from '../../../repositories/room-repository.ts'
 import { CreateRoomUseCase } from '../use-cases/create-room-use-case.ts'
-import { InMemoryRoomsRepository } from '../../../repositories/in-memory/in-memory-rooms-repository.ts'
+import { InMemoryRoomsRepository } from '../../../repositories/in-memory/in-memory-room-repository.ts'
 import { InvalidNameRoomForCreatioError } from '../../../errors/invalid-name-room-for-creation-error.ts'
 
 let repository: roomRepository

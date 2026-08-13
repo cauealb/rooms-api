@@ -7,7 +7,7 @@ import type { userRepository } from '../../../repositories/user-repository.ts'
 import { InMemoryUser } from '../../../repositories/in-memory/in-memory-user-repository.ts'
 import { UserDoesNotExistError } from '../../../errors/user-does-not-exist-error.ts'
 import type { roomRepository } from '../../../repositories/room-repository.ts'
-import { InMemoryRoomsRepository } from '../../../repositories/in-memory/in-memory-rooms-repository.ts'
+import { InMemoryRoomsRepository } from '../../../repositories/in-memory/in-memory-room-repository.ts'
 import { RoomDoesNotExistError } from '../../../errors/room-does-not-exist-error.ts'
 import { IsAlreadyAReservationAvailableForThatDateError } from '../../../errors/is-already-a-reservation-available-for-that-date-error.ts'
 
