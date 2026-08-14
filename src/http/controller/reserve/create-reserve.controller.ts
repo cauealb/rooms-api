@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { MakeCreateReserveUseCase } from "../../../module/reserve/factories/make-create-reserve-use-case.ts";
 
-export async function createReserves(request: FastifyRequest, reply: FastifyReply) {
+export async function createReserve(request: FastifyRequest, reply: FastifyReply) {
     const schemaCreateReserveQuery = z.object({
         idRoom: z.string(),
         idUser: z.string()

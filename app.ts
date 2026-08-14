@@ -1,4 +1,5 @@
 import fastify from "fastify";
+import { reservesRoutes } from "./src/http/controller/reserve/routes.ts";
 export const app = fastify()
 
 app.setErrorHandler((err, request, reply) => {
@@ -12,4 +13,6 @@ app.setErrorHandler((err, request, reply) => {
         message: 'Internal server error'
     })
 })
+
+app.register(reservesRoutes)
 
