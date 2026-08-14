@@ -26,5 +26,5 @@ export async function createReserves(request: FastifyRequest, reply: FastifyRepl
     const useCase = MakeCreateReserveUseCase()
     const reserve = await useCase.execute(data)
 
-    reply.status(201).send(reserve)
+    reply.status(204).send(reserve)
 }
