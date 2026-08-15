@@ -13,5 +13,5 @@ export async function findReservesBetweenDates(request: FastifyRequest, reply: F
     const useCase = MakeFindReservesBetweenDatesUseCase()
     const reserves = await useCase.execute({ startAt, endAt })
 
-    reply.status(200).send(reserves)
+    return reply.status(200).send(reserves)
 }

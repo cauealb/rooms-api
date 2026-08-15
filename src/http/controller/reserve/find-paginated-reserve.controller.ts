@@ -12,5 +12,5 @@ export async function findPaginatedReserve(request: FastifyRequest, reply: Fasti
     const useCase = MakeFindPaginatedReserveUseCase()
     const reserves = await useCase.execute({ page })
 
-    reply.status(200).send(reserves)
+    return reply.status(200).send(reserves)
 }

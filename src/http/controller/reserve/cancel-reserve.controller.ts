@@ -12,5 +12,5 @@ export async function cancelReserve(request: FastifyRequest, reply: FastifyReply
     const useCase = MakeCancelReserveUseCase()
     const reserve = await useCase.execute({ idReserve })
 
-    reply.status(200).send(reserve)
+    return reply.status(200).send(reserve)
 }

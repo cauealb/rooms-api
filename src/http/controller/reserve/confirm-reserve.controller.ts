@@ -12,5 +12,5 @@ export async function confirmReserve(request: FastifyRequest, reply: FastifyRepl
     const useCase = MakeConfirmReserveUseCase()
     const reserve = await useCase.execute({ idReserve })
 
-    reply.status(200).send(reserve)
+    return reply.status(200).send(reserve)
 }
