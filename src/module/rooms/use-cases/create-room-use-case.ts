@@ -1,6 +1,6 @@
 import { InvalidNameRoomForCreatioError } from "../../../errors/invalid-name-room-for-creation-error.ts";
 import type { roomRepository } from "../../../repositories/room-repository.ts";
-import type { Room } from "../../../types/rooms.ts";
+import type { Room } from "../../../types/Rooms.ts";
 
 export interface CreateRoomUseCaseRequest {
     nameRoom: string
