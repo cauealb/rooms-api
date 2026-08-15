@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import { reservesRoutes } from "./src/http/controller/reserve/routes.ts";
+import { roomRoutes } from "./src/http/controller/room/routes.ts";
 export const app = fastify()
 
 app.setErrorHandler((err, request, reply) => {
@@ -15,4 +16,5 @@ app.setErrorHandler((err, request, reply) => {
 })
 
 app.register(reservesRoutes)
+app.register(roomRoutes)
 
