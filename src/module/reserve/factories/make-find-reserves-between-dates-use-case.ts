@@ -4,4 +4,6 @@ import { FindReservesBetweenDates } from "../use-cases/find-reserves-between-dat
 export function MakeFindReservesBetweenDatesUseCase() {
     const repository = new PrismaReserveRepository()
     const useCase = new FindReservesBetweenDates(repository)
+
+    return useCase
 }
