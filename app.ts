@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import fastifyJwt from "@fastify/jwt";
+import fastifyCookie from "@fastify/cookie";
 import { reservesRoutes } from "./src/http/controller/reserve/routes.ts";
 import { roomRoutes } from "./src/http/controller/room/routes.ts";
 import { env } from "./src/env/index.ts";
@@ -21,6 +22,7 @@ app.setErrorHandler((err, request, reply) => {
 app.register(fastifyJwt, {
     secret: env.JWT_SECRET
 })
+app.register(fastifyCookie)
 
 app.register(reservesRoutes)
 app.register(roomRoutes)
