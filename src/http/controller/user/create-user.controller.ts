@@ -10,7 +10,17 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     const { name } = schemaCreateUserBody.parse(request.body)
 
     const useCase = MakeCreateUserUseCase()
-    const user = await useCase.execute({ name })
+    const { user } = await useCase.execute({ name })
 
-    return reply.status(201).send(user)
+    const token = await reply.jwtSign(
+        {},
+        {
+            sign: {
+                sub: user.idUser,
+                expiresIn: '10m'
+            }
+        }
+    )
+
+    return reply.status(201).send({user, token})
 }
