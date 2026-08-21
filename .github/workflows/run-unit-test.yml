@@ -1,0 +1,26 @@
+name: Run unit test
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test-unit:
+    name: CI unit test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Baixar código do repo'
+        uses: actions/checkout@v4
+
+      - name: 'Baixar o ambiente Node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: 'Instalando as dependências'
+        run: npm ci
+
+      - name: 'Executando os testes unitários'
+        run: npm run test
