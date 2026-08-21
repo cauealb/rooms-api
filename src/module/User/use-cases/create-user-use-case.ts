@@ -1,6 +1,8 @@
+import { env } from "../../../env/index.ts";
 import { InvalidInputForCreatingAUser } from "../../../errors/invalid-input-for-creating-a-user-error.ts";
 import type { userRepository } from "../../../repositories/user-repository.ts";
 import type { User } from "../../../types/user.ts";
+import { hash } from 'bcrypt'
 
 export interface CreateUserUseCaseRequest {
     name: string
@@ -24,7 +26,8 @@ export class CreateUserUseCase {
             throw new InvalidInputForCreatingAUser()
         }
 
-        const user = await this.userRepository.create({ name, email, password })
+        const password_hash = await hash(password, env.SALT)
+        const user = await this.userRepository.create({ name, email, password: password_hash })
 
         return { user }
     }

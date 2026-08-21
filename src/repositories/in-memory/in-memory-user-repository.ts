@@ -1,4 +1,4 @@
-import type { UserCreate, User } from "../../types/user.ts";
+import type { User } from "../../types/user.ts";
 import type { userRepository } from "../user-repository.ts";
 
 export class InMemoryUser implements userRepository {
@@ -7,7 +7,9 @@ export class InMemoryUser implements userRepository {
     async create(data: User) {
         const user: User = {
             idUser: data.idUser ?? 'user-01',
-            name: data.name
+            name: data.name,
+            email: data.email,
+            password: data.password
         }
 
         this.item.push(user)
