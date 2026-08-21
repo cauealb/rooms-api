@@ -1,7 +1,8 @@
 import { app } from "./app.ts";
+import { env } from './src/env/index.ts'
 
 app.listen({
-    port: 3434,
+    port: env.PORT,
     host: '0.0.0.0'
 })
 .then(() => console.log("Servidor iniciando com sucesso!"))

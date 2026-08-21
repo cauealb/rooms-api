@@ -15,7 +15,9 @@ describe("Create user use case", () => {
 
     it("should be able create a user", async () => {
         const { user } = await sut.execute({
-            name: 'Cauê'
+            name: 'Cauê',
+            email: 'cauealvesdev@gmail.com',
+            password: 'admin123'
         })
 
         expect(user.idUser).toEqual(expect.any(String))
@@ -24,13 +26,17 @@ describe("Create user use case", () => {
     it("should be able validate short names", async () => {
         await expect(async () => {
             await sut.execute({
-                name: 'C'
+                name: 'C',
+                email: 'cauealvesdev@gmail.com',
+                password: 'admin123'
             })
         }).rejects.toBeInstanceOf(InvalidInputForCreatingAUser)
 
         await expect(async () => {
             await sut.execute({
-                name: ''
+                name: '',
+                email: 'cauealvesdev@gmail.com',
+                password: 'admin123'
             })
         }).rejects.toBeInstanceOf(InvalidInputForCreatingAUser)
     })

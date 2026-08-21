@@ -5,8 +5,11 @@ import { cancelReserve } from "./cancel-reserve.controller.ts";
 import { findPaginatedReserve } from "./find-paginated-reserve.controller.ts";
 import { findReservesBetweenDates } from "./find-reserves-between-dates.controller.ts";
 import { findReservesByStatus } from "./find-reserves-by-status.controller.ts";
+import { verifyToken } from "../../../middlewares/verify-token.ts";
 
 export async function reservesRoutes(app: FastifyInstance) {
+    app.addHook('onRequest', verifyToken)
+
     app.post('/reserve', createReserve)
 
     app.patch('/confirm/reserve/:idReserve', confirmReserve)
