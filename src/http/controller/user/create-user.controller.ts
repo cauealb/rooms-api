@@ -4,13 +4,15 @@ import { MakeCreateUserUseCase } from "../../../module/user/factories/make-creat
 
 export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     const schemaCreateUserBody = z.object({
-        name: z.string()
+        name: z.string(),
+        email: z.email(),
+        password: z.string()
     })
 
-    const { name } = schemaCreateUserBody.parse(request.body)
+    const { name, email, password } = schemaCreateUserBody.parse(request.body)
 
     const useCase = MakeCreateUserUseCase()
-    const { user } = await useCase.execute({ name })
+    const { user } = await useCase.execute({ name, email, password })
 
     const token = await reply.jwtSign(
         {},

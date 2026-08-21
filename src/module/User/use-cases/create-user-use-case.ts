@@ -4,6 +4,8 @@ import type { User } from "../../../types/user.ts";
 
 export interface CreateUserUseCaseRequest {
     name: string
+    email: string
+    password: string
 }
 
 export interface CreateUserUseCaseResponse {
@@ -17,12 +19,12 @@ export class CreateUserUseCase {
         this.userRepository = repository
     }
 
-    async execute({ name }: CreateUserUseCaseRequest): Promise<CreateUserUseCaseResponse> {
+    async execute({ name, email, password }: CreateUserUseCaseRequest): Promise<CreateUserUseCaseResponse> {
         if(name.length <= 1) {
             throw new InvalidInputForCreatingAUser()
         }
 
-        const user = await this.userRepository.create({ name })
+        const user = await this.userRepository.create({ name, email, password })
 
         return { user }
     }
