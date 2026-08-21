@@ -9,6 +9,12 @@ jobs:
     name: CI unit test
     runs-on: ubuntu-latest
 
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      SALT: ${{ secrets.SALT }}
+      PORT: ${{ secrets.PORT }}
+
     steps:
       - name: 'Baixar código do repo'
         uses: actions/checkout@v4
