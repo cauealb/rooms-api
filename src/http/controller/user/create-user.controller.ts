@@ -22,5 +22,21 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
         }
     )
 
+    const refreshToken = await reply.jwtSign(
+        {},
+        {
+            sign: {
+                sub: user.idUser,
+                expiresIn: '7d'
+            }
+        }
+    )
+
+    reply.setCookie('refreshToken', refreshToken, {
+        path: '/',
+        secure: true,
+        httpOnly: true,
+        sameSite: true
+    })
     return reply.status(201).send({user, token})
 }

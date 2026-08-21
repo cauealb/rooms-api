@@ -20,7 +20,11 @@ app.setErrorHandler((err, request, reply) => {
 })
 
 app.register(fastifyJwt, {
-    secret: env.JWT_SECRET
+    secret: env.JWT_SECRET,
+    cookie: {
+        cookieName: 'refreshToken',
+        signed: false
+    }
 })
 app.register(fastifyCookie)
 
