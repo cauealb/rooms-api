@@ -1,4 +1,4 @@
-import type { User } from "../../types/user.ts";
+import type { User } from "../../types/User.ts";
 import type { userRepository } from "../user-repository.ts";
 
 export class InMemoryUser implements userRepository {
@@ -22,6 +22,14 @@ export class InMemoryUser implements userRepository {
         if(!user) {
             return null
         }
+
+        return user
+    }
+
+    async findByEmail(email: string) {
+        const user = this.item.find(item => item.email === email)
+
+        if(!user) return null
 
         return user
     }
