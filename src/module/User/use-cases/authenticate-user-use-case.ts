@@ -23,8 +23,8 @@ export class AutheticateUserUseCase {
         if(!user) {
             throw new Error()
         }
-
-        const isPasswordMatches = await compare(user.password, password)
+        
+        const isPasswordMatches = await compare(password, user.password)
         if(!isPasswordMatches) {
             throw new Error()
         }
