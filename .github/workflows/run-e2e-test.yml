@@ -1,0 +1,53 @@
+name: Run e2e test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-e2e:
+    name: CI e2e test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: bitnami/postgresql
+        ports:
+          - 5433:5432
+        env:
+          POSTGRESQL_USERNAME: admin
+          POSTGRESQL_PASSWORD: 1234
+          POSTGRESQL_DATABASE: rooms-api-test
+        options: >-
+          --health-cmd "pg_isready -U admin -d rooms-api-test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      # Mesmos valores do .env.test versionado: banco descartável do CI.
+      DATABASE_URL: "postgresql://admin:1234@localhost:5433/rooms-api-test"
+      JWT_SECRET: "jwt-secret-apenas-para-testes"
+      SALT: 6
+      PORT: 3535
+
+    steps:
+      - name: 'Baixar código do repo'
+        uses: actions/checkout@v4
+
+      - name: 'Baixar o ambiente Node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: 'Instalando as dependências'
+        run: npm ci
+
+      - name: 'Gerando o Prisma Client'
+        run: npm run db:generate
+
+      - name: 'Executando os testes e2e'
+        run: npm run test:e2e
