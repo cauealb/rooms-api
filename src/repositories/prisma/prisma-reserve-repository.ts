@@ -47,7 +47,6 @@ export class PrismaReserveRepository implements reserveRepository {
 
     async cancelReservation(idReserve: string) {
         const reserve = await prisma.reserve.findUnique({ where: { idReserve: idReserve } })
-        // TODO: Validar reserve da forma correta, se não achar, enviar algo para dizer que não existe esta reserva
 
         return await prisma.reserve.update({
             where: {
