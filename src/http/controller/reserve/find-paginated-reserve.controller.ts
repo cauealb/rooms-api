@@ -7,7 +7,7 @@ export async function findPaginatedReserve(request: FastifyRequest, reply: Fasti
         page: z.coerce.number().min(1).default(1)
     })
 
-    const { page } = schemaFindPaginatedReserveQuery.parse(request.body)
+    const { page } = schemaFindPaginatedReserveQuery.parse(request.params)
 
     const useCase = MakeFindPaginatedReserveUseCase()
     const reserves = await useCase.execute({ page })

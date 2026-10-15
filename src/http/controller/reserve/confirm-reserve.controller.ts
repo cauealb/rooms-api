@@ -7,7 +7,7 @@ export async function confirmReserve(request: FastifyRequest, reply: FastifyRepl
         idReserve: z.string()
     })
 
-    const { idReserve } = schemaConfirmReserveQuery.parse(request.body)
+    const { idReserve } = schemaConfirmReserveQuery.parse(request.params)
 
     const useCase = MakeConfirmReserveUseCase()
     const reserve = await useCase.execute({ idReserve })

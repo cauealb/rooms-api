@@ -65,11 +65,12 @@ export class PrismaReserveRepository implements reserveRepository {
                status: {
                 not: "CANCELED"
                },
+               // Há conflito quando os intervalos se sobrepõem.
                startOfReserve: {
-                lte: startAt
+                lt: endAt
                },
                endOfReserve: {
-                lte: endAt
+                gt: startAt
                }
             }
         })
@@ -77,7 +78,8 @@ export class PrismaReserveRepository implements reserveRepository {
 
     async findPaginatedReservations(page: number) {
         return await prisma.reserve.findMany({
-            skip: page * 20,
+            orderBy: { startOfReserve: "asc" },
+            skip: (page - 1) * 20,
             take: 20
         })
     }
@@ -85,11 +87,14 @@ export class PrismaReserveRepository implements reserveRepository {
     async findReservesBetweenDates(startAt: Date, endAt: Date) {
         return await prisma.reserve.findMany({
             where: {
+                status: {
+                    not: "CANCELED"
+                },
                 startOfReserve: {
-                    lte: startAt
+                    lt: endAt
                 },
                 endOfReserve: {
-                    lte: endAt
+                    gt: startAt
                 }
             }
         })

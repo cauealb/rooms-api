@@ -7,7 +7,7 @@ export async function findReservesByStatus(request: FastifyRequest, reply: Fasti
         status: z.enum(['PENDING', 'CONFIRMED', 'CANCELED'])
     })
 
-    const { status } = shemaFindReservesByStatus.parse(request.query)
+    const { status } = shemaFindReservesByStatus.parse(request.params)
     
     const useCase = MakeFindReservesByStatusUseCase()
     const reserves = await useCase.execute({ status })

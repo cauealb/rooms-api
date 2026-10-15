@@ -8,7 +8,7 @@ export async function findReservesBetweenDates(request: FastifyRequest, reply: F
         endAt: z.string()
     })
 
-    const { startAt, endAt } = schemaFindReservesBetweenDatesBody.parse(request.body)
+    const { startAt, endAt } = schemaFindReservesBetweenDatesBody.parse(request.query)
     
     const useCase = MakeFindReservesBetweenDatesUseCase()
     const reserves = await useCase.execute({ startAt, endAt })

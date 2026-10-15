@@ -7,7 +7,7 @@ export async function cancelReserve(request: FastifyRequest, reply: FastifyReply
         idReserve: z.string()
     })
 
-    const { idReserve } = schemaCancelReserveQuery.parse(request.query)
+    const { idReserve } = schemaCancelReserveQuery.parse(request.params)
 
     const useCase = MakeCancelReserveUseCase()
     const reserve = await useCase.execute({ idReserve })

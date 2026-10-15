@@ -40,5 +40,5 @@ export async function authenticateUser(request: FastifyRequest, reply: FastifyRe
         httpOnly: true
     })
 
-    return reply.status(200).send(user)
+    return reply.status(200).send({ user, token })
 }
