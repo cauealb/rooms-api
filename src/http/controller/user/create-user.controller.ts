@@ -40,5 +40,8 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
         httpOnly: true,
         sameSite: true
     })
-    return reply.status(201).send({user, token})
+
+
+    const responseUser = { idUser: user.idUser, name: user.name, email: user.email }
+    return reply.status(201).send({responseUser, token})
 }
