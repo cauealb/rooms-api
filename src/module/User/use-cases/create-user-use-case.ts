@@ -1,4 +1,5 @@
 import { env } from "../../../env/index.ts";
+import { EmailHasAlredyExistsError } from "../../../errors/email-has-already-exists-error.ts";
 import { InvalidInputForCreatingAUser } from "../../../errors/invalid-input-for-creating-a-user-error.ts";
 import type { userRepository } from "../../../repositories/user-repository.ts";
 import type { User } from "../../../types/User.ts";
@@ -24,6 +25,11 @@ export class CreateUserUseCase {
     async execute({ name, email, password }: CreateUserUseCaseRequest): Promise<CreateUserUseCaseResponse> {
         if(name.length <= 1) {
             throw new InvalidInputForCreatingAUser()
+        }
+
+        const doesEmailExists = await this.userRepository.findByEmail(email)
+        if(doesEmailExists) {
+            throw new EmailHasAlredyExistsError()
         }
 
         const password_hash = await hash(password, env.SALT)

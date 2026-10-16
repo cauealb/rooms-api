@@ -10,7 +10,7 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     })
 
     const { name, email, password } = schemaCreateUserBody.parse(request.body)
-
+    
     const useCase = MakeCreateUserUseCase()
     const { user } = await useCase.execute({ name, email, password })
 
@@ -43,5 +43,5 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
 
 
     const responseUser = { idUser: user.idUser, name: user.name, email: user.email }
-    return reply.status(201).send({responseUser, token})
+    return reply.status(201).send({user: responseUser, token})
 }

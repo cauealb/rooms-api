@@ -108,4 +108,28 @@ describe('Create user (e2e)', () => {
         expect(response.statusCode).toBe(400)
         expect(response.json().message).toBe('Invalid input for creating a user!')
     })
+
+    it("should be able validate the same email", async () => {
+        await app.inject({
+            method: 'POST',
+            url: '/user',
+            payload: {
+                name: 'Caue',
+                email: 'caue@gmail.com',
+                password: 'admin123',
+            }
+        })
+
+        const response = await app.inject({
+            method: 'POST',
+            url: '/user',
+            payload: {
+                name: 'Caue',
+                email: 'caue@gmail.com',
+                password: 'admin123',
+            }
+        })
+
+        expect(response.json().message).toEqual('Email has alredy exists')
+    })
 })
